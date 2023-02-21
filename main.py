@@ -1,3 +1,6 @@
+#TODO: Fix weird bug with player drawing and values not showing or showing twice
+#TODO: fix bug with not going bust
+#https://imgur.com/a/28nmyGY
 import random
 cardValue = 0
 bust = False
@@ -64,22 +67,49 @@ print("Value: ",cardValue)
 while choice != ("hold") and bust == False:
     turn()
 #computer turn
-def computerTurn():
-  global draw
-  global computerAceCount
-  draw = (random.choice(deck))
-  deck.remove(draw)
-  print(draw)
-  #count Aces
-  if draw == "A♥" or "A♦" or "A♣" or "A♠":
-     computerAceCount = computerAceCount+1
-  #convert to INT value
-  draw=(draw.replace("♥", ""))
-  draw=(draw.replace("♦", ""))
-  draw=(draw.replace("♣", ""))
-  draw=(draw.replace("♠", ""))
-  draw=(draw.replace("J", "10"))
-  draw=(draw.replace("Q", "10"))
-  draw=(draw.replace("K", "10"))
-  draw=(draw.replace("A", "11"))
-#TODO: add condition for computer drawing/holding
+if bust == False:
+  print("Computer turn")
+  def computerTurn():
+    global draw
+    global computerAceCount
+    global intDraw
+    global computerCardValue
+    draw = (random.choice(deck))
+    deck.remove(draw)
+    print(draw)
+    #count Aces
+    if draw == "A♥" or "A♦" or "A♣" or "A♠":
+       computerAceCount = computerAceCount+1
+    #convert to INT value
+    draw=(draw.replace("♥", ""))
+    draw=(draw.replace("♦", ""))
+    draw=(draw.replace("♣", ""))
+    draw=(draw.replace("♠", ""))
+    draw=(draw.replace("J", "10"))
+    draw=(draw.replace("Q", "10"))
+    draw=(draw.replace("K", "10"))
+    draw=(draw.replace("A", "11"))
+    intDraw = int(draw)
+    computerCardValue = computerCardValue+intDraw
+    if computerCardValue > 21 and computerAceCount > 0:
+      computerAceCount = computerAceCount-1
+      computerCardValue = computerCardValue-10
+  computerTurn()
+  computerTurn()
+  print("Value:",computerCardValue)
+  while computerCardValue <= (16):
+    computerTurn()
+    print("Value: ",computerCardValue)
+  if computerCardValue > 21:
+    print(Bust)
+    print("You win")
+  elif cardValue > computerCardValue:
+    print("Player wins")
+  elif cardValue == computerCardValue:
+    print("Draw")
+  elif cardValue < computerCardValue:
+    print("Computer wins")
+  else:
+    print("Something went wrong")
+else:
+  print("Computer wins")
