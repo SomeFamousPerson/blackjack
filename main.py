@@ -1,7 +1,5 @@
-#TODO: Fix weird bug with player drawing and values not showing or showing twice
-#TODO: fix bug with not going bust
-#https://imgur.com/a/28nmyGY
 import random
+import time
 cardValue = 0
 bust = False
 aceCount = 0
@@ -9,6 +7,7 @@ computerCardValue = 0
 computerAceCount = 0
 intDraw = 0
 choice = ""
+draw = 0
 def turn():
     global aceCount
     global cardValue
@@ -17,25 +16,28 @@ def turn():
     global choice 
     if bust == False:
         choice = input("Draw or hold? ")
-        if choice == ("draw"):
+        if choice == ("hold"):
+            print("Value: ",cardValue)
+        elif choice == ("draw"):
             drawCard()
-            #card valuehold
+            #card value
             cardValue = cardValue+intDraw
             if cardValue > 21:
                 #change aces to ones
                 if aceCount > 0:
-                  aceCount = aceCount-1
-                  cardValue = cardValue-10
-                #go bust
-                else:
+                  aceCount -= 1
+                  cardValue -= 10
                   print("Value: ",cardValue)
+                else:
+                #go bust
+                  print("Value: ",cardValue)
+                  time.sleep(0.2)
                   print("Bust")
                   bust = True
             else:
-                print(draw)
                 print("Value:",cardValue)
-        elif choice == ("hold"):
-            print("Value: ",cardValue)
+        else:
+          print("Invalid input")
 deck = ["A♥","2♥","3♥","4♥","5♥","6♥","7♥","8♥","9♥","10♥","J♥","Q♥","K♥","A♦","2♦","3♦","4♦","5♦","6♦","7♦","8♦","9♦","10♦","J♦","Q♦","K♦","A♣","2♣","3♣","4♣","5♣","6♣","7♣","8♣","9♣","10♣","J♣","Q♣","K♣","A♠","2♠","3♠","4♠","5♠","6♠","7♠","8♠","9♠","10♠","J♠","Q♠","K♠"]
 def drawCard():
     #grab randon card and remove it from deck
@@ -46,8 +48,8 @@ def drawCard():
     deck.remove(draw)
     print(draw)
     #count Aces
-    if draw == "A♥" or "A♦" or "A♣" or "A♠":
-      aceCount = aceCount+1
+    if draw == "A♥" or draw == "A♦" or draw == "A♣" or draw == "A♠":
+      aceCount += 1
     #convert to INT value
     draw=(draw.replace("♥", ""))
     draw=(draw.replace("♦", ""))
@@ -68,6 +70,7 @@ while choice != ("hold") and bust == False:
     turn()
 #computer turn
 if bust == False:
+  time.sleep(0.5)
   print("Computer turn")
   def computerTurn():
     global draw
@@ -78,7 +81,7 @@ if bust == False:
     deck.remove(draw)
     print(draw)
     #count Aces
-    if draw == "A♥" or "A♦" or "A♣" or "A♠":
+    if draw == "A♥" or draw == "A♦" or draw == "A♣" or draw == "A♠":
        computerAceCount = computerAceCount+1
     #convert to INT value
     draw=(draw.replace("♥", ""))
@@ -94,14 +97,17 @@ if bust == False:
     if computerCardValue > 21 and computerAceCount > 0:
       computerAceCount = computerAceCount-1
       computerCardValue = computerCardValue-10
+  time.sleep(0.2)
   computerTurn()
+  time.sleep(0.2)
   computerTurn()
   print("Value:",computerCardValue)
   while computerCardValue <= (16):
+    time.sleep(0.5)
     computerTurn()
     print("Value: ",computerCardValue)
   if computerCardValue > 21:
-    print(Bust)
+    print("Bust")
     print("You win")
   elif cardValue > computerCardValue:
     print("Player wins")
