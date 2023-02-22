@@ -1,5 +1,4 @@
 import random
-import time
 cardValue = 0
 bust = False
 aceCount = 0
@@ -31,7 +30,6 @@ def turn():
                 else:
                 #go bust
                   print("Value: ",cardValue)
-                  time.sleep(0.2)
                   print("Bust")
                   bust = True
             else:
@@ -70,7 +68,6 @@ while choice != ("hold") and bust == False:
     turn()
 #computer turn
 if bust == False:
-  time.sleep(0.5)
   print("Computer turn")
   def computerTurn():
     global draw
@@ -97,13 +94,10 @@ if bust == False:
     if computerCardValue > 21 and computerAceCount > 0:
       computerAceCount = computerAceCount-1
       computerCardValue = computerCardValue-10
-  time.sleep(0.2)
   computerTurn()
-  time.sleep(0.2)
   computerTurn()
   print("Value:",computerCardValue)
   while computerCardValue <= (16):
-    time.sleep(0.5)
     computerTurn()
     print("Value: ",computerCardValue)
   if computerCardValue > 21:
